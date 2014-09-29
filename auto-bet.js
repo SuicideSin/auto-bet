@@ -43,7 +43,7 @@ $panel = $('#autoBetPanel');
 
 if($panel.length <= 0)
 {
-	$panel = $('<div style="position:fixed;top:70px;left:15px;" id="autoBetPanel" class="panel panel-default"><div class="panel-heading">TheMan\'s auto-bet script.</div><div class="panel-body"><div class="form-group"><label for="donateAmt">Donate to dev %</label><input type="text" id="donateAmt" class="form-control"><div class="text-center"><small>this percentage will be donated to TheMan <br>when maximum balance is hit</small></div></div><div class="form-group"><label for="maxBal">Maximum Balance</label><input type="text" id="maxBal" class="form-control"></div><div class="form-group"><label for="minBal">Minimum Balance</label><input type="text" id="minBal" class="form-control"></div><div class="form-group"><label for="startBet">Starting Bet</label><input type="text" id="startBet" class="form-control"></div><div class="form-group"><label for="betMult">Multiple on Loss</label><input type="text" id="betMult" class="form-control"></div><div class="form-group"><label for="maxBet">Maximum Bet</label><input type="text" id="maxBet" class="form-control"></div><div class="form-group"><label for="minBet">Minimum bet</label><input type="text" id="minBet" class="form-control"></div><div class="form-group"><label for="preroll">Preroll</label><input type="text" id="preroll" class="form-control"></div><button class="btn btn-primary col-xs-4" id="startBetting" type="button">Bet!</button><button class="btn btn-danger col-xs-4" id="stopBetting" type="button">STOP!</button><button class="btn btn-warning col-xs-4" id="pauseBetting" type="button">Pause</button></div></div>');
+	$panel = $('<div style="position:fixed;top:70px;left:15px;" id="autoBetPanel" class="panel panel-default"><div class="panel-heading">TheMan\'s auto-bet script.</div><div class="panel-body"><div class="form-group tm-donate"><label for="donateAmt">Donate to dev %</label><input type="text" id="donateAmt" class="form-control"><div class="text-center"><small>this percentage will be donated to TheMan <br>when maximum balance is hit</small></div></div><div class="form-group"><label for="maxBal">Maximum Balance</label><input type="text" id="maxBal" class="form-control"></div><div class="form-group"><label for="minBal">Minimum Balance</label><input type="text" id="minBal" class="form-control"></div><div class="form-group"><label for="startBet">Starting Bet</label><input type="text" id="startBet" class="form-control"></div><div class="form-group"><label for="betMult">Multiple on Loss</label><input type="text" id="betMult" class="form-control"></div><div class="form-group"><label for="maxBet">Maximum Bet</label><input type="text" id="maxBet" class="form-control"></div><div class="form-group"><label for="minBet">Minimum bet</label><input type="text" id="minBet" class="form-control"></div><div class="form-group"><label for="preroll">Preroll</label><input type="text" id="preroll" class="form-control"></div><button class="btn btn-primary col-xs-4" id="startBetting" type="button">Bet!</button><button class="btn btn-danger col-xs-4" id="stopBetting" type="button">STOP!</button><button class="btn btn-warning col-xs-4" id="pauseBetting" type="button">Pause</button></div></div>');
 
 	$('body').append($panel);
 	$panel = $('#autoBetPanel');
@@ -71,6 +71,11 @@ if($panel.length <= 0)
 	{
 		window.pauseBetting = !window.pauseBetting;
 	});
+}
+
+if(window.location.hostname != "www.bitdice.me")
+{
+	$panel.find('.tm-donate').hide();
 }
 
 $panel.find('#minBal').val(window.minBal);
