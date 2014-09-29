@@ -255,7 +255,7 @@ window.autoBet = function(){
 					return;
 				}
 
-				if($firstBetRow.find('td:last > span').hasClass('win'))
+				if($firstBetRow.length <= 0 || $firstBetRow.find('td:last > span').hasClass('win'))
 				{
 					if(window.preroll > 0)
 					{
