@@ -4,17 +4,18 @@ Run this script in Firebug or a built-in JavaScript console
 A dialogue will open with settings.
 */
 
-(function(){
-
 
 if(window.location.hostname != "www.bitdice.me" &&
 	window.location.hostname != "www.litedice.me" &&
-	window.location.hostname == "www.dogedice.me" &&
-	window.location.hostname == "www.reddice.me")
+	window.location.hostname != "www.dogedice.me" &&
+	window.location.hostname != "www.reddice.me")
 {
 	alert('This script only works on: www.bitdice.me, www.litedice.me, www.dogedice.me, www.reddice.me');
-	return;
 }
+else
+{
+
+(function(){
 
 window.donateAmt = 0.5;
 window.startBalance = $('#user-balance').text()-0;
@@ -232,7 +233,7 @@ window.autoBet = function(){
 						var tipAmount = (window.donateAmt/100)*(balance-window.startBalance);
 						if(tipAmount > 0.0001)
 						{
-							$('#chatMessage').val('/tip ฿13309 '+);
+							$('#chatMessage').val('/tip ฿13309 '+tipAmount);
 							$('#sendMessage').click();
 						}
 					}
@@ -333,3 +334,5 @@ window.autoBet = function(){
 }
 
 })();
+
+}
