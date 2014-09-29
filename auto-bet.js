@@ -188,7 +188,7 @@ window.autoBet = function(){
 				window.setVals();
 			}
 
-			var curBet = $betAmount.val();
+			var curBet = $betAmount.val()-0;
 			if(curBet*window.betMult > window.maxBet || curBet < window.startBet)
 			{
 				curBet = window.startBet;
@@ -211,8 +211,16 @@ window.autoBet = function(){
 			var $username = $('#user_username').val();
 			var $firstBetRow = $('#all-bets > tr > td:contains('+$username+')').first().parent();
 
-			var DOMlastBet = $firstBetRow.find('td:first > a').text();
-			var balance = $('#user-balance').text();
+			var DOMlastBet;
+			if($firstBetRow.length <= 0)
+			{
+				DOMlastBet = -1;
+			}
+			else
+			{
+				DOMlastBet = $firstBetRow.find('td:first > a').text();
+			}
+			var balance = $('#user-balance').text()-0;
 			if(window.autoBetVars.lastBet != DOMlastBet && $makeHiBet.text() != 'running' && window.autoBetVars.lastBal != balance)
 			{
 				window.stopFailSafe = 0;
@@ -237,6 +245,7 @@ window.autoBet = function(){
 							$('#sendMessage').click();
 						}
 					}
+					console.log(($username != 'TheMan' && window.donateAmt > 0 && window.location.hostname == "www.bitdice.me" && balance-window.startBalance > 0));
 					alert('maximum balance has been hit');
 					return;
 				}
