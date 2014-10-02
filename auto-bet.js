@@ -18,6 +18,7 @@ else
 (function(){
 
 window.donateAmt = 0.5;
+window.multiplier = 2;
 window.startBalance = $('#user-balance').text()-0;
 window.startBet = 0.00008;
 window.betMult = 2.5;
@@ -28,6 +29,28 @@ window.minBal = window.startBalance-0.05;
 window.minBet = 0.00001;
 window.preroll = 0;
 window.pauseBetween = 500;
+
+if(typeof window.localStorage['autoBetSettings'] != "undefined")
+{
+	var settings = ['minBal', 'maxBal', 'startBet', 'betMult', 'maxBet', 'minBet', 'preroll', 'donateAmt', 'multiplier'];
+	try
+	{
+		var temp = JSON.parse(window.localStorage['autoBetSettings']);
+	}
+	catch(e)
+	{
+		window.localStorage['autoBetSettings'] = '{}';
+		return;
+	}
+
+	for(var x in settings)
+	{
+		if(typeof temp[settings[x]] != "undefined")
+		{
+			window[settings[x]] = temp[settings[x]];
+		}
+	}
+}
 if(window.minBal < 0)
 {
 	window.minBal = 0;
@@ -43,11 +66,11 @@ $panel = $('#autoBetPanel');
 
 if($panel.length <= 0)
 {
-	$panel = $('<div style="position:fixed;top:70px;left:15px;" id="autoBetPanel" class="panel panel-default"><div class="panel-heading">TheMan\'s auto-bet script.</div><div class="panel-body"><div class="form-group tm-donate"><label for="donateAmt">Donate to dev %</label><input type="text" id="donateAmt" class="form-control"><div class="text-center"><small>this percentage will be donated to TheMan <br>when maximum balance is hit</small></div></div><div class="form-group"><label for="maxBal">Maximum Balance</label><input type="text" id="maxBal" class="form-control"></div><div class="form-group"><label for="minBal">Minimum Balance</label><input type="text" id="minBal" class="form-control"></div><div class="form-group"><label for="startBet">Starting Bet</label><input type="text" id="startBet" class="form-control"></div><div class="form-group"><label for="betMult">Multiple on Loss</label><input type="text" id="betMult" class="form-control"></div><div class="form-group"><label for="maxBet">Maximum Bet</label><input type="text" id="maxBet" class="form-control"></div><div class="form-group"><label for="minBet">Minimum bet</label><input type="text" id="minBet" class="form-control"></div><div class="form-group"><label for="preroll">Preroll</label><input type="text" id="preroll" class="form-control"></div><button class="btn btn-primary col-xs-4" id="startBetting" type="button">Bet!</button><button class="btn btn-danger col-xs-4" id="stopBetting" type="button">STOP!</button><button class="btn btn-warning col-xs-4" id="pauseBetting" type="button">Pause</button></div></div>');
+	$panel = $('<div style="position:fixed;top:10px;left:10px;z-index:9999;" id="autoBetPanel" class="panel panel-default"><div class="panel-heading">TheMan\'s auto-bet script.</div><div class="panel-body"><div class="form-group tm-donate"><label for="donateAmt">Donate to dev %</label><input type="text" id="donateAmt" class="form-control"><div class="text-center"><small>this percentage is only donated when maximum balance is hit</small></div></div><div class="form-group"><label for="maxBal">Maximum Balance</label><input type="text" id="maxBal" class="form-control"></div><div class="form-group"><label for="minBal">Minimum Balance</label><input type="text" id="minBal" class="form-control"></div><div class="form-group"><label for="multiplier">Multiplier</label><input type="text" id="multiplier" class="form-control"></div><div class="form-group"><label for="startBet">Starting Bet</label><input type="text" id="startBet" class="form-control"></div><div class="form-group"><label for="betMult">Multiply on Loss</label><input type="text" id="betMult" class="form-control"></div><div class="form-group"><label for="maxBet">Maximum Bet</label><input type="text" id="maxBet" class="form-control"></div><div class="form-group"><label for="minBet">Minimum bet</label><input type="text" id="minBet" class="form-control"></div><div class="form-group"><label for="preroll">Preroll</label><input type="text" id="preroll" class="form-control"></div><button class="btn btn-primary col-xs-4" id="startBetting" type="button">Bet!</button><button class="btn btn-danger col-xs-4" id="stopBetting" type="button">STOP!</button><button class="btn btn-warning col-xs-4" id="pauseBetting" type="button">Pause</button></div></div>');
 
 	$('body').append($panel);
 	$panel = $('#autoBetPanel');
-	$panel.find('.panel-body').css('max-height', (document.documentElement.clientHeight-130)+'px').css('overflow', 'auto');
+	$panel.find('.panel-body').css('max-height', (document.documentElement.clientHeight-10)+'px').css('overflow', 'auto');
 
 	$('#startBetting').click(function()
 	{
@@ -86,18 +109,44 @@ $panel.find('#maxBet').val(window.maxBet);
 $panel.find('#minBet').val(window.minBet);
 $panel.find('#preroll').val(window.preroll);
 $panel.find('#donateAmt').val(window.donateAmt);
+$panel.find('#multiplier').val(window.multiplier);
 
- window.setVals = function()
- {
-	window.minBal = $panel.find('#minBal').val();
-	window.maxBal = $panel.find('#maxBal').val();
-	window.startBet = $panel.find('#startBet').val();
-	window.betMult = $panel.find('#betMult').val();
-	window.maxBet = $panel.find('#maxBet').val();
-	window.minBet = $panel.find('#minBet').val();
-	window.preroll = $panel.find('#preroll').val();
-	window.donateAmt = $panel.find('#donateAmt').val();
- }
+window.setVals = function()
+{
+	var temp = {};
+	temp.minBal = $panel.find('#minBal').val();
+	temp.maxBal = $panel.find('#maxBal').val();
+	temp.startBet = $panel.find('#startBet').val();
+	temp.betMult = $panel.find('#betMult').val();
+	temp.maxBet = $panel.find('#maxBet').val();
+	temp.minBet = $panel.find('#minBet').val();
+	temp.preroll = $panel.find('#preroll').val();
+	temp.donateAmt = $panel.find('#donateAmt').val();
+	temp.multiplier = $panel.find('#multiplier').val();
+	window.localStorage['autoBetSettings'] = JSON.stringify(temp);
+	console.log(temp, JSON.stringify(temp), window.localStorage['autoBetSettings']);
+	for(var x in temp)
+	{
+		console.log(x, temp[x]);
+		window[x] = temp[x];
+	}
+
+	var $changeMltp = $('#change-mltp');
+	var $multiplier = $('#mltp-value');
+	if($multiplier.is('[readonly]'))
+	{
+		$changeMltp.click();
+	}
+	$multiplier.val(window.multiplier);
+	$changeMltp.click();
+
+	var multiplierText = $multiplier.val();
+	if(multiplierText.substring(0, multiplierText.length-1)-0 != window.multiplier)
+	{
+		alert('auto-bet failed - multiplier not set currectly');
+		window.stopBetting = true;
+	}
+}
 
 
 window.autoBet = function(){
@@ -125,9 +174,6 @@ window.autoBet = function(){
 	console.log('Starting bet: ' + window.startBet);
 	console.log('Maximum bet: ' + window.maxBet);
 
-	var $chanceVal = $('#chance-value');
-	var $changeChance = $('#change-chance');
-	var $multiplier = $('#mltp-value');
 	var $betAmount = $('#bet-amount');
 	$betAmount.val(window.startBet);
 
@@ -328,19 +374,6 @@ window.autoBet = function(){
 		subBet();
 	}
 
-
-	if($chanceVal.is('[readonly]'))
-	{
-		$changeChance.click();
-	}
-	$chanceVal.val('49.5');
-	$changeChance.click();
-
-	if($multiplier.val() != '2.00X')
-	{
-		alert('auto-bet failed');
-		return;
-	}
 	$betAmount.val(window.startBet);
 
 	dobet();
