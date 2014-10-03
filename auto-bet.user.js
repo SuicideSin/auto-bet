@@ -12,5 +12,5 @@
 // @include       https://www.reddice.me/
 // @run-at        document-end
 // @grant         none
-// @version       1.0
+// @version       1.01
 // ==/UserScript==
