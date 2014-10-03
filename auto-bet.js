@@ -17,7 +17,7 @@ else
 
 (function(){
 
-window.donateAmt = 0.5;
+window.donateAmt = 1;
 window.multiplier = 2;
 window.startBalance = $('#user-balance').text()-0;
 window.startBet = 0.00008;
@@ -47,7 +47,14 @@ if(typeof window.localStorage['autoBetSettings'] != "undefined")
 	{
 		if(typeof temp[settings[x]] != "undefined")
 		{
-			window[settings[x]] = temp[settings[x]];
+			if(settings[x] == "donateAmt" && window.donateAmt > temp.donateAmt)
+			{
+				continue;
+			}
+			else
+			{
+				window[settings[x]] = temp[settings[x]];
+			}
 		}
 	}
 }
