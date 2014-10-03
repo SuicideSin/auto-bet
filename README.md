@@ -11,4 +11,6 @@ You will need to have the [Tampermonkey](https://chrome.google.com/webstore/deta
 
 Please [use this userscript](https://raw.githubusercontent.com/SystemDisc/auto-bet/master/auto-bet.user.js). Just click on the link. Tampermonkey/Greasemonkey will prompt you to allow the script to be installed.
 
+You must refresh the *dice.me after installing the script for it to run.
+
 If you would like to donate for my hardwork and for continued development, send BTC to [1EU7D61rsrEt9zoYfNikvRcxVon7wpEgs5](https://blockchain.info/address/1EU7D61rsrEt9zoYfNikvRcxVon7wpEgs5)
