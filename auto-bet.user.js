@@ -11,7 +11,7 @@
 // @include       https://www.reddice.me/
 // @run-at        document-end
 // @grant         GM_xmlhttpRequest
-// @version       1.1.0
+// @version       1.10
 // ==/UserScript==
 
 GM_xmlhttpRequest({
