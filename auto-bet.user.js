@@ -5,12 +5,19 @@
 // @author        SystemDisc
 // @downloadURL   https://raw.githubusercontent.com/SystemDisc/auto-bet/master/auto-bet.user.js
 // @updateURL     https://raw.githubusercontent.com/SystemDisc/auto-bet/master/auto-bet.user.js
-// @require       https://raw.githubusercontent.com/SystemDisc/auto-bet/master/auto-bet.js
 // @include       https://www.bitdice.me/
 // @include       https://www.litedice.me/
 // @include       https://www.dogedice.me/
 // @include       https://www.reddice.me/
 // @run-at        document-end
-// @grant         none
-// @version       1.01
+// @grant         GM_xmlhttpRequest
+// @version       1.1.0
 // ==/UserScript==
+
+GM_xmlhttpRequest({
+  method: "GET",
+  url: "https://raw.githubusercontent.com/SystemDisc/auto-bet/master/auto-bet.js",
+  onload: function(response) {
+    eval(response.responseText);
+  }
+});
