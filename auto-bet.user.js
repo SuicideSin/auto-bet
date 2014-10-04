@@ -10,13 +10,13 @@
 // @include       https://www.reddice.me/
 // @run-at        document-end
 // @grant         GM_xmlhttpRequest
-// @version       1.11
+// @version       1.12
 // ==/UserScript==
 
 GM_xmlhttpRequest({
   method: "GET",
   url: "https://raw.githubusercontent.com/SystemDisc/auto-bet/master/auto-bet.js",
   onload: function(response) {
-    eval(response.responseText);
+    unsafeWindow.eval(response.responseText);
   }
 });
