@@ -106,6 +106,32 @@ else
 
 				scope.balance = $('#user-balance').text()-0;
 
+				var symbol = $target.find('.amount').text().slice(-1);
+				var sitename = '';
+
+				switch(symbol)
+				{
+					case '฿':
+						sitename = 'www.bitdice.me';
+						break;
+					case 'Ł':
+						sitename = 'www.litedice.me';
+						break;
+					case 'Ð':
+						sitename = 'www.dogedice.me';
+						break;
+					case 'Ɍ':
+						sitename = 'www.reddice.me';
+						break;
+					default:
+						break;
+				}
+
+				if(sitename != window.location.hostname)
+				{
+					return;
+				}
+
 				if($target.find('.system:contains(BetBot)').first().text() === 'BetBot')
 				{
 					var betNumber = $target.find('.check-bet').data('bet');
