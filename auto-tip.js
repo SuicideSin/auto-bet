@@ -135,6 +135,7 @@ else
 				if($target.find('.system:contains(BetBot)').first().text() === 'BetBot')
 				{
 					var betNumber = $target.find('.check-bet').data('bet');
+					var retries = 1;
 					var temp = function()
 					{
 						$.getJSON('/api/'+betNumber, function(data)
@@ -144,7 +145,11 @@ else
 						})
 						.fail(function()
 						{
-							setTimeout(temp, 100);
+							if(retries++ > 10)
+							{
+								return;
+							}
+							setTimeout(temp, 100*retries);
 						});
 					}
 					setTimeout(temp, 250);
