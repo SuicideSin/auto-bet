@@ -81,7 +81,7 @@ else
 			scope.user_function = function(user_id, bet_amount){eval(code);}
 			scope.tip = function(user_id, tip_amount)
 			{
-				$('#chatMessage').val('/tip '+user_id+' '+tipAmount);
+				$('#chatMessage').val('/tip '+user_id+' '+tip_amount);
 				$('#sendMessage').click();
 			}
 			scope.sendMessage = function(message)
