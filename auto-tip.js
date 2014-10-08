@@ -135,11 +135,19 @@ else
 				if($target.find('.system:contains(BetBot)').first().text() === 'BetBot')
 				{
 					var betNumber = $target.find('.check-bet').data('bet');
-					$.getJSON('/api/'+betNumber, function(data)
+					var temp = function()
 					{
-						scope.data = data;
-						scope.user_function(window.user_prefix+data.user_id, data.amount);
-					});
+						$.getJSON('/api/'+betNumber, function(data)
+						{
+							scope.data = data;
+							scope.user_function(window.user_prefix+data.user_id, data.amount);
+						})
+						.fail(function()
+						{
+							setTimeout(temp, 100);
+						});
+					}
+					setTimeout(temp, 250);
 				}
 			}
 			$('.chat-box').bind('DOMNodeInserted', window.autoTipHandler);
